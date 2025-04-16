@@ -15,9 +15,9 @@ type Columns = {
 }
 
 const initialData: Columns = {
-  todo: ['Learn Next.js', 'Style with Tailwind'],
-  doing: ['Build Trello board'],
-  done: ['Setup project'],
+  todo: ['Today i have to learn drizzle orm', 'I have to complete the figma file '],
+  doing: ['Learning  React js '],
+  done: ['Completed the order login/signup'],
 }
 
 export default function Page() {
