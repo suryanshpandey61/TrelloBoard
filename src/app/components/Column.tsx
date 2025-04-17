@@ -11,7 +11,7 @@ interface ColumnProps {
 
 export default function Column({ columnId, title, tasks }: ColumnProps) {
   return (
-    <div className="bg-white rounded p-2 w-1/3 shadow">
+    <div className="bg-white rounded p-4 w-1/3 shadow">
       <h2 className="text-xl font-semibold capitalize mb-4">{title}</h2>
       <Droppable droppableId={columnId}>
         {(provided) => (
