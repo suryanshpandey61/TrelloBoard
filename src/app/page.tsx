@@ -82,7 +82,7 @@ export default function Page() {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-4">
           {Object.entries(columns).map(([columnId, tasks]) => (
-            <div key={columnId} className="bg-white rounded p-4 w-1/3 shadow">
+            <div key={columnId} className="bg-white rounded-xl p-4 w-1/3 shadow">
               <h2 className="text-xl font-semibold capitalize mb-4">{columnId}</h2>
               <Droppable droppableId={columnId}>
                 {(provided) => (
