@@ -77,8 +77,8 @@ export default function Page() {
   }
 
   return (
-    <main className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Trello Clone</h1>
+    <main className="p-8 bg-main h-screen">
+      <h1 className="text-3xl font-bold mb-6 text-yellow-500">Trello Clone</h1>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-4">
           {Object.entries(columns).map(([columnId, tasks]) => (
