@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   DragDropContext,
   Droppable,
   Draggable,
   DropResult,
 } from '@hello-pangea/dnd'
+import { PlusIcon } from '@heroicons/react/24/solid'
 
 type ColumnType = 'todo' | 'doing' | 'done'
 
@@ -14,14 +15,30 @@ type Columns = {
   [key in ColumnType]: string[]
 }
 
-const initialData: Columns = {
-  todo: ['Today i have to learn drizzle orm', 'I have to complete the figma file '],
-  doing: ['Learning  React js '],
+const defaultData: Columns = {
+  todo: ['Today I have to learn Drizzle ORM', 'I have to complete the Figma file'],
+  doing: ['Learning React JS'],
   done: ['Completed the order login/signup'],
 }
 
+const STORAGE_KEY = 'trello-columns'
+
 export default function Page() {
-  const [columns, setColumns] = useState<Columns>(initialData)
+  const [columns, setColumns] = useState<Columns>(defaultData)
+  const [newTask, setNewTask] = useState('')
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      setColumns(JSON.parse(saved))
+    }
+  }, [])
+
+  // Save to localStorage when columns change
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(columns))
+  }, [columns])
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result
@@ -48,6 +65,15 @@ export default function Page() {
         [destCol]: destItems,
       }))
     }
+  }
+
+  const handleAddTask = () => {
+    if (newTask.trim() === '') return
+    setColumns(prev => ({
+      ...prev,
+      todo: [...prev.todo, newTask.trim()],
+    }))
+    setNewTask('')
   }
 
   return (
@@ -83,6 +109,27 @@ export default function Page() {
                   </div>
                 )}
               </Droppable>
+
+              {/* Add Task UI only for TODO */}
+              {columnId === 'todo' && (
+                <div className="mt-4">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={newTask}
+                      onChange={(e) => setNewTask(e.target.value)}
+                      placeholder="Add new task..."
+                      className="flex-1 px-3 py-2 border rounded"
+                    />
+                    <button
+                      onClick={handleAddTask}
+                      className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded"
+                    >
+                      <PlusIcon className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
