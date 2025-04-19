@@ -77,7 +77,7 @@ export default function Page() {
   }
 
   return (
-    <main className="p-8 bg-main h-screen">
+    <main className="p-7 bg-main h-screen">
       <h1 className="text-3xl font-bold mb-6 text-yellow-500">Trello Clone</h1>
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-4">
