@@ -48,7 +48,7 @@ export default function Board() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex gap-4">
+      <div className="flex gap-3">
         {Object.entries(columns).map(([columnId, tasks]) => (
           <Column
             key={columnId}
