@@ -1,25 +1,19 @@
 'use client'
 
-import { Draggable } from '@hello-pangea/dnd'
-
-interface TaskProps {
+type Props = {
+  provided: any
   task: string
-  index: number
 }
 
-export default function Task({ task, index }: TaskProps) {
+export default function Task({ provided, task }: Props) {
   return (
-    <Draggable draggableId={task} index={index}>
-      {(provided) => (
-        <div
-          className="bg-blue-100 rounded p-3 shadow cursor-pointer"
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          {task}
-        </div>
-      )}
-    </Draggable>
+    <div
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      className="bg-blue-100 rounded p-3 shadow cursor-pointer"
+    >
+      {task}
+    </div>
   )
 }
