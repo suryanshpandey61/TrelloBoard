@@ -9,7 +9,6 @@ import {
 } from 'react'
 import { useRouter } from 'next/navigation'
 
-// 🧠 Define the user and context types
 type User = {
   id: number
   email: string
@@ -22,7 +21,7 @@ type AuthContextType = {
   logout: () => Promise<void>
 }
 
-// ❗ Fix: don't initialize with null, use undefined with proper typing
+// Fix: don't initialize with null, use undefined with proper typing
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
