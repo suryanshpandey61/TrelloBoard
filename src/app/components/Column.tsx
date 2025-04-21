@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { db } from '@/app/db/drizzle'
-import { tasks } from '@/app/db/schema' // Correct import of your table schema
+import { db } from '@/db/drizzle'
+import { tasks } from '@/db/schema' // Correct import of your table schema
 
 type ColumnType = 'todo' | 'doing' | 'done'
 
@@ -27,11 +27,11 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
 
     try {
       // Insert task into the DB using Drizzle ORM
-      await db.insert(tasks).values({
-        userId,
-        columnId,
-        content: newTask.trim(),
-      })
+      // await db.insert(tasks).values({
+      //   userId,
+      //   columnId,
+      //   content: newTask.trim(),
+      // })
 
       // After insertion, trigger a UI refresh
       window.location.reload() // You can replace this with a more efficient solution like a state change
