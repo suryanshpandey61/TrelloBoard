@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '@/app/context/AuthContext'
-import { useEffect, useState } from 'react'
+import { useEffect} from 'react'
 import Board from '@/app/components/Board'
 import { useRouter } from 'next/navigation'
 

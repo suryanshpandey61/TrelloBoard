@@ -1,61 +1,55 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function LoginPage() {
+const LoginPage = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
 
-    const router = useRouter();
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // Simulate login (you can add your logic here)
+    alert('Login Successful')
+
+    // After login, we can redirect user to /trello (optional)
+    router.push('/trello')
+  }
 
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-main">
-      <h1 className="text-3xl font-bold mb-6 text-blue-500">Login</h1>
-      <form className="space-y-4">
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email Address
-          </label>
+    <div className="max-w-md mx-auto p-8">
+      <h2 className="text-3xl font-bold mb-4">Login</h2>
+      <form onSubmit={handleLogin}>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium">Email</label>
           <input
-            id="email"
             type="email"
-            placeholder="Enter your email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
             required
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-sm font-medium">Password</label>
           <input
-            id="password"
             type="password"
-            placeholder="Enter your password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
             required
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
-        <div>
-            If  you not have an account go to <button className="underline font-semibold cursor-pointer" onClick={()=>router.push('/signup')}> Signup</button>
-        </div>
-
-        {/* Login btn  */}
-        <div>
-          <button
-            type="submit"
-            className="w-full cursor-pointer p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Log In
-          </button>
-        </div>
+        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">
+          Login
+        </button>
       </form>
-    </main>
-  );
+    </div>
+  )
 }
+
+export default LoginPage

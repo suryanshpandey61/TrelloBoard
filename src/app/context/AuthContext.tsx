@@ -23,7 +23,7 @@ type AuthContextType = {
 }
 
 // ❗ Fix: don't initialize with null, use undefined with proper typing
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
