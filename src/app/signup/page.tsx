@@ -1,7 +1,18 @@
 'use client'
 
+import { useState } from "react"
+
 
 export default function SignupPage() {
+
+    const[email,setEmail] = useState("");
+    const[password,setPassword]=useState("");
+    const[confirmPassword,setConfirmPassword]=useState("");
+    const[error,setError]=useState("");
+
+    if(password!==confirmPassword){
+        setError("Password and confirm Password does not match")
+    }
 
 
   return (
@@ -14,7 +25,7 @@ export default function SignupPage() {
         Signup
       </button>
       <form action="">
-        
+
       </form>
     </main>
   )
