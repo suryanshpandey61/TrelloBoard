@@ -24,6 +24,7 @@ export default function SignupPage() {
   return (
     <main className="h-screen flex flex-col items-center justify-center bg-main">
       <h1 className="text-3xl font-bold mb-6 text-black">Create Account</h1> 
+      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
       <form 
           onSubmit={handleSubmit}
           className="space-y-2">
