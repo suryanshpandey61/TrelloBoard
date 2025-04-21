@@ -1,52 +1,66 @@
 'use client'
 
-import { Droppable, Draggable } from '@hello-pangea/dnd'
-import Task from './Task'
-import { PlusIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
+import { db } from '@/app/db/drizzle'
+import { tasks } from '@/app/db/schema' // Correct import of your table schema
 
-type Props = {
-  columnId: string
-  tasks: string[]
-  onAddTask: (columnId: string, task: string) => void
+type ColumnType = 'todo' | 'doing' | 'done'
+
+type Task = {
+  id: number
+  userId: number
+  columnId: ColumnType
+  content: string
 }
 
-export default function Column({ columnId, tasks, onAddTask }: Props) {
+type ColumnProps = {
+  columnId: ColumnType
+  tasks: Task[]
+  userId: number
+}
+
+export default function Column({ columnId, tasks, userId }: ColumnProps) {
   const [newTask, setNewTask] = useState('')
 
-  const handleAddTask = () => {
-    if (newTask.trim() === '') return
-    onAddTask(columnId, newTask.trim())
-    setNewTask('')
+  const handleAddTask = async () => {
+    if (!newTask.trim()) return
+
+    try {
+      // Insert task into the DB using Drizzle ORM
+      await db.insert(tasks).values({
+        userId,
+        columnId,
+        content: newTask.trim(),
+      })
+
+      // After insertion, trigger a UI refresh
+      window.location.reload() // You can replace this with a more efficient solution like a state change
+    } catch (error) {
+      console.error('Error adding task:', error)
+    } finally {
+      setNewTask('')
+    }
   }
 
   return (
     <div className="bg-white rounded-xl p-4 w-1/3 shadow">
       <h2 className="text-xl font-semibold capitalize mb-4">{columnId}</h2>
 
-      <Droppable droppableId={columnId}>
-        {(provided) => (
+      <div className="space-y-2 min-h-[100px]">
+        {tasks.map((task) => (
           <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            className="space-y-2 min-h-[100px]"
+            key={task.id}
+            className="bg-blue-100 rounded p-3 shadow cursor-pointer"
           >
-            {tasks.map((task, index) => (
-              <Draggable key={task} draggableId={task} index={index}>
-                {(provided) => (
-                  <Task provided={provided} task={task} />
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
+            {task.content}
           </div>
-        )}
-      </Droppable>
+        ))}
+      </div>
 
-      {/* Only show input & button in the 'todo' column */}
+      {/* Show input only for TODO column */}
       {columnId === 'todo' && (
         <div className="mt-4">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2">
             <input
               type="text"
               value={newTask}
@@ -56,9 +70,9 @@ export default function Column({ columnId, tasks, onAddTask }: Props) {
             />
             <button
               onClick={handleAddTask}
-              className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
             >
-              <PlusIcon className="h-5 w-5" />
+              +
             </button>
           </div>
         </div>

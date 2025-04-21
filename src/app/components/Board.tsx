@@ -1,87 +1,71 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import {
-  DragDropContext,
-  DropResult,
-} from '@hello-pangea/dnd'
+import { useEffect, useState } from 'react'
+import { db } from '@/app/db/drizzle'
+import { tasks } from '@/app/db/schema'
+import { eq } from 'drizzle-orm'
 import Column from './Column'
 
 type ColumnType = 'todo' | 'doing' | 'done'
 
+type Task = {
+  id: number
+  userId: number
+  columnId: ColumnType
+  content: string
+}
+
 type Columns = {
-  [key in ColumnType]: string[]
+  [key in ColumnType]: Task[]
 }
 
-const defaultData: Columns = {
-  todo: ['Today I have to learn Drizzle ORM', 'I have to complete the Figma file'],
-  doing: ['Learning React JS'],
-  done: ['Completed the order login/signup'],
+type BoardProps = {
+  userId: number
 }
 
-const STORAGE_KEY = 'trello-columns'
-
-export default function Board() {
-  const [columns, setColumns] = useState<Columns>(defaultData)
-
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved) {
-      setColumns(JSON.parse(saved))
-    }
-  }, [])
+export default function Board({ userId }: BoardProps) {
+  const [columns, setColumns] = useState<Columns>({
+    todo: [],
+    doing: [],
+    done: [],
+  })
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(columns))
-  }, [columns])
+    const fetchTasks = async () => {
+      try {
+        const result = await db.select().from(tasks).where(eq(tasks.userId, userId))
 
-  const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result
-    if (!destination) return
+        const organizedTasks: Columns = {
+          todo: [],
+          doing: [],
+          done: [],
+        }
 
-    const sourceCol = source.droppableId as ColumnType
-    const destCol = destination.droppableId as ColumnType
+        for (const task of result) {
+          if (['todo', 'doing', 'done'].includes(task.columnId)) {
+            organizedTasks[task.columnId as ColumnType].push(task as Task)
+          }
+        }
 
-    const sourceItems = Array.from(columns[sourceCol])
-    const [movedItem] = sourceItems.splice(source.index, 1)
-
-    if (sourceCol === destCol) {
-      sourceItems.splice(destination.index, 0, movedItem)
-      setColumns(prev => ({ ...prev, [sourceCol]: sourceItems }))
-    } else {
-      const destItems = Array.from(columns[destCol])
-      destItems.splice(destination.index, 0, movedItem)
-      setColumns(prev => ({
-        ...prev,
-        [sourceCol]: sourceItems,
-        [destCol]: destItems,
-      }))
+        setColumns(organizedTasks)
+      } catch (error) {
+        console.error('Error loading tasks:', error)
+      }
     }
-  }
 
-  const handleAddTask = (columnId: string, task: string) => {
-    if (!task.trim()) return
-    setColumns(prev => ({
-      ...prev,
-      [columnId]: [...prev[columnId as ColumnType], task.trim()],
-    }))
-  }
+    fetchTasks()
+  }, [userId])
 
   return (
-    <main className="p-8 bg-main h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-yellow-500">Trello Clone</h1>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex gap-4">
-          {Object.entries(columns).map(([columnId, tasks]) => (
-            <Column
-              key={columnId}
-              columnId={columnId}
-              tasks={tasks}
-              onAddTask={handleAddTask}
-            />
-          ))}
-        </div>
-      </DragDropContext>
-    </main>
+    <div className="flex gap-4">
+      {Object.entries(columns).map(([columnId, taskList]) => (
+        <Column
+          key={columnId}
+          columnId={columnId as ColumnType}
+          tasks={taskList}
+          userId={userId}
+        />
+      ))}
+    </div>
   )
 }
