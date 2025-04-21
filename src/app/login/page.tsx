@@ -43,7 +43,7 @@ export default function LoginPage() {
         </div>
 
         <div>
-            Don't you have an account go to <button className="underline font-semibold cursor-pointer" onClick={()=>router.push('/signup')}> Signup</button>
+            If  you not have an account go to <button className="underline font-semibold cursor-pointer" onClick={()=>router.push('/signup')}> Signup</button>
         </div>
 
         {/* Login btn  */}
