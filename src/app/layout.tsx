@@ -1,15 +1,12 @@
-import '../app/globals.css'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Trello Clone',
-  description: 'A Trello-like drag and drop board built with Next.js',
-}
+import './globals.css'
+import { AuthProvider } from './context/AuthContext'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-gray-200 text-gray-900">{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   )
 }
