@@ -13,6 +13,9 @@ export default function SignupPage() {
       >
         Signup
       </button>
+      <form action="">
+        
+      </form>
     </main>
   )
 }
