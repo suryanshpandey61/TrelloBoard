@@ -20,34 +20,59 @@ const LoginPage = () => {
 
   return (
     <div className="max-w-md mx-auto p-8">
-      <h2 className="text-3xl font-bold mb-4">Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
+
+      <div className="flex justify-center items-center flex-grow login-bg">
+        <div className="w-[90%] max-w-sm p-6 bg-white rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Login</h2>
+
+          <form className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                required
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                required
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+
+            <div>
+              <button
+                type="submit"
+                className="w-full p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Log In
+              </button>
+            </div>
+          </form>
+
+          <div className="mt-6 text-center ">
+            <div className="text-sm flex gap-x-1.5 text-gray-600">
+            <p>  Do not have an account   </p>
+             <button onClick={()=>router.push('/signup')} className='text-slate-600 font-semibold'> Signup</button>
+              
+              
+            </div>
+          </div>
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">
-          Login
-        </button>
-      </form>
+      </div>
     </div>
   )
 }
