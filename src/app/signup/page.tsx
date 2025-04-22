@@ -22,10 +22,13 @@ export default function SignupPage() {
 
 
   return (
-    <main className="h-screen flex flex-col items-center justify-center bg-main">
-      <h1 className="text-3xl font-bold mb-6 text-black">Create Account</h1> 
-      {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-      <form 
+    <div className="flex justify-center w-full h-screen items-center flex-grow signup-bg">
+        <div className="w-[90%] lg:pt-0 mt-2 max-w-lg p-5 bg-white rounded-lg shadow-md mb-2">
+          <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6 pt-2 ">Create Account</h2>
+
+          {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+
+          <form 
           onSubmit={handleSubmit}
           className="space-y-2">
             <div>
@@ -87,9 +90,7 @@ export default function SignupPage() {
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <div>
-                You have already an account <button className="underline cursor-pointer font-bold" onClick={()=>router.push('/login')}>Login</button>
-            </div>
+
             <div>
               <button
                 type="submit"
@@ -99,6 +100,15 @@ export default function SignupPage() {
               </button>
             </div>
           </form>
-    </main>
+
+          <div className="mt-6 text-center">
+            <div className="text-sm flex gap-x-1.5 text-gray-600">
+             <p> Already have an account?</p>
+             <button onClick={()=>router.push('/login')} className="text-slate-600 font-semibold ">Login</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
   )
 }
