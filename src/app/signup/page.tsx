@@ -104,7 +104,7 @@ export default function SignupPage() {
           <div className="mt-6 text-center">
             <div className="text-sm flex gap-x-1.5 text-gray-600">
              <p> Already have an account?</p>
-             <button onClick={()=>router.push('/login')} className="text-slate-600 font-semibold ">Login</button>
+             <button onClick={()=>router.push('/login')} className="text-slate-600 font-semibold cursor-pointer ">Login</button>
 
             </div>
           </div>

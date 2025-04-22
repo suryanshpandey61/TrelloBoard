@@ -66,7 +66,7 @@ const LoginPage = () => {
           <div className="mt-6 text-center ">
             <div className="text-sm flex gap-x-1.5 text-gray-600">
             <p>  Do not have an account   </p>
-             <button onClick={()=>router.push('/signup')} className='text-slate-600 font-semibold'> Signup</button>
+             <button onClick={()=>router.push('/signup')} className='text-slate-600 cursor-pointer font-semibold'> Signup</button>
               
               
             </div>
