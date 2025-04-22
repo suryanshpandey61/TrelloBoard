@@ -10,13 +10,13 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-10 text-yellow-500">Trello Clone</h1>
       <div className="flex gap-6">
         <button
-          className="bg-blue-600 text-white px-6 py-2 rounded shadow"
+          className="bg-blue-600 text-white px-6 py-2  cursor-pointer rounded shadow"
           onClick={() => router.push('/login')}
         >
           Login
         </button>
         <button
-          className="bg-green-600 text-white px-6 py-2 rounded shadow"
+          className="bg-green-600 text-white px-6 py-2 cursor-pointer rounded shadow"
           onClick={() => router.push('/signup')}
         >
           Signup
