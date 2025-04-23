@@ -1,12 +1,12 @@
 import {db} from "@/db/index"
 import { usersTable } from "@/db/schema";
-import bcrypt from "bcryptjs"
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {  
   if (req.method === "POST") {
     try {
       const { name, email, password, confirmPassword } = req.body;
+      const bcrypt = require('bcryptjs');
 
       if (password !== confirmPassword) {
         return res.status(400).json({ error: "Passwords do not match" });
