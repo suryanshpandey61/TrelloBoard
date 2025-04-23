@@ -1,7 +1,7 @@
 import { db } from "@/db/index";
 import { usersTable } from "@/db/schema";
 
-import {jwt} from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { eq } from "drizzle-orm";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
