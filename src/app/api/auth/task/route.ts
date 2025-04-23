@@ -1,13 +1,23 @@
-// app/api/tasks/route.ts
-import { db } from '@/db'
-import { tasks } from '@/db/schema'
-import { NextResponse } from 'next/server'
-import { eq } from 'drizzle-orm'
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url)
-  const userId = Number(searchParams.get('userId'))
+// /app/api/tasks/route.ts
+import { db } from '@/db';
+import { tasks } from '@/db/schema';
+import { NextRequest } from 'next/server';
 
-  const result = await db.select().from(tasks).where(eq(tasks.userId, userId))
+export async function POST(req: NextRequest) {
+  const body = await req.json();
 
-  return NextResponse.json(result)
+  const { userId, columnId, content } = body;
+
+  if (!userId || !columnId || !content) {
+    return new Response(JSON.stringify({ error: 'Missing fields' }), { status: 400 });
+  }
+
+  try {
+    await db.insert(tasks).values({ userId, columnId, content });
+
+    return new Response(JSON.stringify({ message: 'Task added successfully' }), { status: 201 });
+  } catch (error) {
+    console.error('DB Error:', error);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+  }
 }

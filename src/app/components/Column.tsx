@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { db } from '@/db'
-import { tasks as tasksTable } from '@/db/schema'
+// import { db } from '@/db'
+// import { tasks as tasksTable } from '@/db/schema'
 
 type ColumnType = 'todo' | 'doing' | 'done'
 
@@ -23,23 +23,32 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
   const [newTask, setNewTask] = useState('')
 
   const handleAddTask = async () => {
-    if (!newTask.trim()) return
-
+    if (!newTask.trim()) return;
+  
     try {
-      await db.insert(tasksTable).values({
-        userId,
-        columnId,
-        content: newTask.trim(),
-      })
-
-      // Temporary: reload the page. (Later, update the state instead!)
-      window.location.reload()
+      const res = await fetch('/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          columnId,
+          content: newTask.trim(),
+        }),
+      });
+  
+      if (!res.ok) {
+        throw new Error('Failed to add task');
+      }
+  
+      // Later: use state to update UI
+      window.location.reload(); // temporary
     } catch (error) {
-      console.error('Error adding task:', error)
+      console.error('Error adding task:', error);
     } finally {
-      setNewTask('')
+      setNewTask('');
     }
-  }
+  };
+  
 
   return (
     <div className="bg-white rounded-xl p-4 w-1/3 shadow">

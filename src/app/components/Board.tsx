@@ -1,9 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { db } from '@/db/'
-import { tasks } from '@/db/schema'
-import { eq } from 'drizzle-orm'
 import Column from './Column'
 
 type ColumnType = 'todo' | 'doing' | 'done'
@@ -33,7 +30,7 @@ export default function Board({ userId }: BoardProps) {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch(`/api/tasks?userId=${userId}`);
+        const res = await fetch(`/api/auth/tasks?userId=${userId}`);
         const result: Task[] = await res.json();
   
         const organizedTasks: Columns = {
