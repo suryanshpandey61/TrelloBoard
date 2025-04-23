@@ -9,14 +9,28 @@ const LoginPage = () => {
   const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    // Simulate login (you can add your logic here)
-    alert('Login Successful')
-
-    // After login, we can redirect user to /trello (optional)
-    router.push('/trello')
-  }
+    e.preventDefault();
+  
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+  
+    const data = await res.json();
+  
+    if (!res.ok) {
+      alert(data.error || "Login failed");
+      return;
+    }
+  
+    // Save JWT in localStorage (or cookie for better security)
+    localStorage.setItem("token", data.token);
+  
+    alert("Welcome! You are logged in.");
+    // Optionally redirect to a protected route
+  };
+  
 
   return (
     <div className="w-full h-screen flex mx-auto p-8 login-bg">
@@ -25,7 +39,9 @@ const LoginPage = () => {
         <div className="w-[90%] max-w-sm p-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Login</h2>
 
-          <form className="space-y-4">
+          <form className="space-y-4"
+          onSubmit={handleLogin}
+          >
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email Address

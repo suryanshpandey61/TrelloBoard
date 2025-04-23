@@ -1,7 +1,7 @@
 import { db } from "@/db/index";
 import { usersTable } from "@/db/schema";
 
-import {Jwt} from "jsonwebtoken";
+import {jwt} from "jsonwebtoken";
 import { eq } from "drizzle-orm";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     }
 
     // ✅ Generate JWT token
-    const token = Jwt.sign(
+    const token = jwt.sign(
       {
         id: user.id,
         name: user.name,
