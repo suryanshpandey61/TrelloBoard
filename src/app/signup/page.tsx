@@ -19,7 +19,27 @@ export default function SignupPage() {
             setError("Password and confirm Password does not match")
         }
 
-        
+        const response = await fetch("/api/auth/signup",{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json",
+          },
+          body:JSON.stringify({name,email,password,confirmPassword}),
+        });
+
+        const data=await response.json();
+
+        if(response.ok){
+          toast.success("User Created Successfully! Please log in.");
+          setName("");
+          setEmail("");
+          setPassword("");
+          setConfirmPassword("");
+          
+        }else{
+          toast.error(data.error || "An error occurred While Signing Up");
+          setError(data.error || "Something went Wrong");
+        }
     }
 
     const router=useRouter();
