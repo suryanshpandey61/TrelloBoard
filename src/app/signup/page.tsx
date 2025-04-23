@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation";
+import { toast, ToastContainer } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css'; 
 
 export default function SignupPage() {
 
@@ -16,6 +18,8 @@ export default function SignupPage() {
         if(password!==confirmPassword){
             setError("Password and confirm Password does not match")
         }
+
+        
     }
 
     const router=useRouter();

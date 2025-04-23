@@ -1,16 +1,33 @@
-import { db } from '@/db/drizzle'
-import { users } from '@/db/schema'
-import { NextResponse } from 'next/server'
-import { eq } from 'drizzle-orm'
+import { db } from "@/db/index";
+import { usersTable } from "@/db/schema";
+import bcrypt from "bcryptjs";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export async function POST(req: Request) {
-  const { email, name, password } = await req.json()
-  const existing = await db.select().from(users).where(eq(users.email,email)).limit(1)
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {  
+  if (req.method === "POST") {
+    try {
+      const { name, email, password, confirmPassword } = req.body;
 
-  if (existing.length > 0) {
-    return NextResponse.json({ error: 'User already exists' }, { status: 400 })
+      if (password !== confirmPassword) {
+        return res.status(400).json({ error: "Passwords do not match" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Insert into the database
+      await db.insert(usersTable).values({
+        name,
+        email,
+        password: hashedPassword,
+      });
+
+      return res.status(201).json({ message: "User Created Successfully" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error. Cannot push the data." });
+    }
+  } else {
+    // Method Not Allowed
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
-
-  await db.insert(users).values({ email, name, password })
-  return NextResponse.json({ message: 'User created' }, { status: 201 })
 }
