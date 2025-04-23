@@ -29,6 +29,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.4",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/jwt-decode": "^3.1.0",
     "@types/node": "^20.17.30",
     "@types/pg": "^8.11.13",
     "@types/react": "^19",
