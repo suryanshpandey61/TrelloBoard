@@ -50,6 +50,7 @@ const LoginPage = () => {
                 id="email"
                 type="email"
                 value={email}
+                onChange={(e)=>e.target.value}
                 placeholder="Enter your email"
                 required
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -64,6 +65,7 @@ const LoginPage = () => {
                 id="password"
                 type="password"
                 value={password}
+                onChange={(e)=>e.target.value}
                 placeholder="Enter your password"
                 required
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
