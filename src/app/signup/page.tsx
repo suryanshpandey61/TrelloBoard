@@ -1,52 +1,55 @@
 'use client'
 
 import { useState } from "react"
-import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from 'react-toastify';  
 import 'react-toastify/dist/ReactToastify.css'; 
 
-export default function SignupPage() {
+const Signup: React.FC = () => {
 
-    const[name,setName]=useState("");
-    const[email,setEmail] = useState("");
-    const[password,setPassword]=useState("");
-    const[confirmPassword,setConfirmPassword]=useState("");
-    const[error,setError]=useState("");
+  const[name,setName] = useState("");
+  const[email,setEmail] = useState("");
+  const[password,setPassword] = useState("");
+  const[confirmPassword,setConfirmPassword] = useState("");
+  const[error,setError] = useState("");
 
-    const handleSubmit = async(e:React.FormEvent) => {
-        e.preventDefault();
-        if(password!==confirmPassword){
-            setError("Password and confirm Password does not match")
-        }
 
-        const response = await fetch("/app/api/auth/signup",{
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json",
-          },
-          body:JSON.stringify({name,email,password,confirmPassword}),
-        });
+  const handleSubmit = async (e:React.FormEvent) => {
+     
+      e.preventDefault();
 
-        const data=await response.json();
+      if(password!==confirmPassword){
+        setError("Password do not match please again check the pasword");
+        return;
+      }
 
-        if(response.ok){
-          toast.success("User Created Successfully! Please log in.");
-          setName("");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
-          
-        }else{
-          toast.error(data.error || "An error occurred While Signing Up");
-          setError(data.error || "Something went Wrong");
-        }
-    }
+      const response = await fetch("/api/auth/signup",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body:JSON.stringify({name,email,password,confirmPassword}),
+      });
 
-    const router=useRouter();
+      const data=await response.json();
+
+      if(response.ok){
+        toast.success("User Created Successfully! Please log in.");
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        
+      }else{
+        toast.error(data.error || "An error occurred While Signing Up");
+        setError(data.error || "Something went Wrong");
+      }
+  };
 
 
   return (
-    <div className="flex justify-center w-full h-screen items-center flex-grow signup-bg">
+    <div className="min-h-screen bg-gray-200 flex flex-col">
+     
+      <div className="flex justify-center items-center flex-grow signup-bg">
         <div className="w-[90%] lg:pt-0 mt-2 max-w-lg p-5 bg-white rounded-lg shadow-md mb-2">
           <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6 pt-2 ">Create Account</h2>
 
@@ -118,7 +121,7 @@ export default function SignupPage() {
             <div>
               <button
                 type="submit"
-                className="w-full p-3 cursor-pointer bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Sign Up
               </button>
@@ -126,13 +129,18 @@ export default function SignupPage() {
           </form>
 
           <div className="mt-6 text-center">
-            <div className="text-sm flex gap-x-1.5 text-gray-600">
-             <p> Already have an account?</p>
-             <button onClick={()=>router.push('/login')} className="text-slate-600 font-semibold cursor-pointer ">Login</button>
-
+            <div className="text-sm text-gray-600">
+              Already have an account?{" "}
+            
+              
+            
             </div>
           </div>
         </div>
       </div>
-  )
-}
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default Signup;
