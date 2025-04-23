@@ -16,6 +16,7 @@
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "drizzle-orm": "^0.42.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.3.0",
     "pg": "^8.14.1",
     "postcss": "^8.5.3",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.4",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.17.30",
     "@types/pg": "^8.11.13",
     "@types/react": "^19",
