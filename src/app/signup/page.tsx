@@ -19,7 +19,7 @@ export default function SignupPage() {
             setError("Password and confirm Password does not match")
         }
 
-        const response = await fetch("/api/auth/signup",{
+        const response = await fetch("/app/api/auth/signup",{
           method:"POST",
           headers:{
             "Content-Type":"application/json",
