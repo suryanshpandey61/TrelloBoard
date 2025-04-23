@@ -40,9 +40,14 @@ const Signup: React.FC = () => {
         setConfirmPassword("");
         
       }else{
+        const text = await response.text(); 
+       
         toast.error(data.error || "An error occurred While Signing Up");
         setError(data.error || "Something went Wrong");
+        throw new Error(`API error: ${response.status} - ${text}`);
       }
+
+
   };
 
 
