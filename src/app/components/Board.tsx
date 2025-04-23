@@ -33,28 +33,30 @@ export default function Board({ userId }: BoardProps) {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const result = await db.select().from(tasks).where(eq(tasks.userId, userId))
-
+        const res = await fetch(`/api/tasks?userId=${userId}`);
+        const result: Task[] = await res.json();
+  
         const organizedTasks: Columns = {
           todo: [],
           doing: [],
           done: [],
-        }
-
+        };
+  
         for (const task of result) {
           if (['todo', 'doing', 'done'].includes(task.columnId)) {
-            organizedTasks[task.columnId as ColumnType].push(task as Task)
+            organizedTasks[task.columnId as ColumnType].push(task);
           }
         }
-
-        setColumns(organizedTasks)
+  
+        setColumns(organizedTasks);
       } catch (error) {
-        console.error('Error loading tasks:', error)
+        console.error('Error loading tasks:', error);
       }
-    }
-
-    fetchTasks()
-  }, [userId])
+    };
+  
+    fetchTasks();
+  }, [userId]);
+  
 
   return (
     <div className="flex gap-4">
