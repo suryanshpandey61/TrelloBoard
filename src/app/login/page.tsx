@@ -49,8 +49,7 @@ const LoginPage = () => {
               <input
                 id="email"
                 type="email"
-                value={email}
-                onChange={(e)=>e.target.value}
+                onChange={(e)=>setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -64,8 +63,7 @@ const LoginPage = () => {
               <input
                 id="password"
                 type="password"
-                value={password}
-                onChange={(e)=>e.target.value}
+                onChange={(e)=>setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
                 className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
