@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { db } from '@/db/drizzle'
+import { db } from '@/db/'
 import { tasks } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import Column from './Column'

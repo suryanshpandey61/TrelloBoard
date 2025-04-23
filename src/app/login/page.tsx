@@ -28,6 +28,7 @@ const LoginPage = () => {
     localStorage.setItem("token", data.token);
   
     alert("Welcome! You are logged in.");
+    router.push("/trello")
     // Optionally redirect to a protected route
   };
   
