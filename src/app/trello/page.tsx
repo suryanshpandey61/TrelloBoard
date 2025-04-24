@@ -10,7 +10,7 @@ export default function TrelloPage() {
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) router.push('/login')
+    // if (!user) router.push('/login')
   }, [user,router])
 
   if (!user) return null
