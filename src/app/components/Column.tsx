@@ -26,7 +26,7 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
     if (!newTask.trim()) return;
   
     try {
-      const res = await fetch('/api/tasks', {
+      const res = await fetch('/api/auth/task', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
