@@ -85,19 +85,21 @@ export default function Board({ userId }: BoardProps) {
 
     const destinationColumn = over.id as ColumnType
 
-    setColumns((prev)=>{
-      const updated = {...prev}
-      updated[sourceColumn!] = updated[sourceColumn!].filter(t => t.id !== taskId)
-      updated[destinationColumn] = [
-        ...updated[destinationColumn],
-        {
-          ...taskToMove,
-          columnId: destinationColumn,
-        } as Task,
-      ]
-      
+    setColumns((prev) => {
+      const updated = { ...prev }
+    
+      const src = sourceColumn as ColumnType
+      const dest = destinationColumn as ColumnType
+    
+      // Safeguard
+      if (!src || !dest || !taskToMove) return prev
+    
+      updated[src] = updated[src].filter((t) => t.id !== taskId)
+      updated[dest] = [...updated[dest], { ...taskToMove, columnId: dest }]
+    
       return updated
     })
+    
     setHasChanges(true)
   };
 
