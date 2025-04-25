@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+import { toast, ToastContainer } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css'; 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -27,7 +28,7 @@ const LoginPage = () => {
     // Save JWT in localStorage (or cookie for better security)
     localStorage.setItem("token", data.token);
   
-    alert("Welcome! You are logged in.");
+    toast.success("Login Successfully , Please Wait a Moment")
     router.push("/trello")
     // Optionally redirect to a protected route
   };
@@ -92,6 +93,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   )
 }
