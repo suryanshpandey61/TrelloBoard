@@ -13,9 +13,15 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await db.insert(tasks).values({ userId, columnId, content });
+   
+    const insertedTask = await db
+    .insert(tasks)
+    .values({userId,columnId,content})
+    .returning()
 
-    return new Response(JSON.stringify({ message: 'Task added successfully' }), { status: 201 });
+    const createdTask=insertedTask[0]
+
+    return new Response(JSON.stringify(createdTask), { status: 201 });
   } catch (error) {
     console.error('DB Error:', error);
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
