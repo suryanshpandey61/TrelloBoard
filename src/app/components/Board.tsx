@@ -58,39 +58,36 @@ export default function Board({ userId }: BoardProps) {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-
-    const taskId = Number(active.id);
-    let sourceColumn: ColumnType | null = null;
-    let taskToMove : Task | undefined
-
-    for(const col in columns){
-        const task=columns[col as ColumnType].find((t)=>t.id===taskId)
-        if(task){
-          sourceColumn=col as ColumnType
-          taskToMove=task
-          break
-        }
-    }
-
-    const destinationColumn = over.id as ColumnType
-
+  
+    const sourceColumn = active.data.current?.columnId as ColumnType;
+    const destinationColumn = over.id as ColumnType;
+  
+    if (!sourceColumn || !destinationColumn || sourceColumn === destinationColumn) return;
+  
+    const taskToMove = columns[sourceColumn].find((task) => task.id === Number(active.id));
+    if (!taskToMove) return;
+  
     setColumns((prev) => {
-      const updated = { ...prev }
-    
-      const src = sourceColumn as ColumnType
-      const dest = destinationColumn as ColumnType
-    
-      // Safeguard
-      if (!src || !dest || !taskToMove) return prev
-    
-      updated[src] = updated[src].filter((t) => t.id !== taskId)
-      updated[dest] = [...updated[dest], { ...taskToMove, columnId: dest }]
-    
-      return updated
-    })
-    
-    setHasChanges(true)
+      const updated = { ...prev };
+      updated[sourceColumn] = updated[sourceColumn].filter((t) => t.id !== taskToMove.id);
+      updated[destinationColumn] = [
+        ...updated[destinationColumn],
+        { ...taskToMove, columnId: destinationColumn },
+      ];
+      return updated;
+    });
+  
+    // Optional: Send updated task to DB
+    fetch('/api/auth/task', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...taskToMove,
+        columnId: destinationColumn, // new column
+      }),
+    }).catch(console.error);
   };
+  
 
   const handleSave = async () => {
     const allTasks = Object.values(columns).flat()

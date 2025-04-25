@@ -1,9 +1,8 @@
-// src/app/api/tasks/route.ts
+
 import { db } from '@/db';
 import { tasks } from '@/db/schema';
-import { eq } from "drizzle-orm"
+import { eq } from 'drizzle-orm';
 import { NextRequest } from 'next/server';
-
 
 export async function GET(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get('userId');
@@ -16,7 +15,7 @@ export async function GET(req: NextRequest) {
     const userTasks = await db
       .select()
       .from(tasks)
-      .where(tasks.userId.eq(Number(userId)));
+      .where(eq(tasks.userId, Number(userId)));
 
     return new Response(JSON.stringify(userTasks), { status: 200 });
   } catch (error) {
