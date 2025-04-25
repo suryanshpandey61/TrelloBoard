@@ -22,6 +22,7 @@ type ColumnProps = {
 }
 
 export default function Column({ columnId, tasks, userId }: ColumnProps) {
+  const[tasksState,setTask] = useState<Task[]>(tasks);
   const [newTask, setNewTask] = useState('')
 
   const handleAddTask = async () => {
@@ -43,10 +44,12 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
       }
 
       const createdTask:Task =await res.json();
+      setTask((prev)=>[...prev,createdTask]);
   
       // Later: use state to update UI
       toast.success("Task Added Successfully , Please wait a moment")
-      window.location.reload(); // temporary
+      setNewTask(''); 
+      // window.location.reload(); // temporary
     } catch (error) {
       console.error('Error adding task:', error);
     } finally {
