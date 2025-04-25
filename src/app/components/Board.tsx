@@ -100,6 +100,24 @@ export default function Board({ userId }: BoardProps) {
     setHasChanges(true)
   };
 
+  const handleSave = async () => {
+    const allTasks = Object.values(columns).flat()
+
+    try {
+      const res = await fetch('/api/auth/update-tasks', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tasks: allTasks }),
+      })
+
+      if (!res.ok) throw new Error('Save failed')
+
+      setHasChanges(false)
+    } catch (error) {
+      console.error('Error saving tasks:', error)
+    }
+  }
+
   return (
     <div className="flex gap-4">
       {Object.entries(columns).map(([columnId, taskList]) => (
