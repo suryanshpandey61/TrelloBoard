@@ -72,6 +72,32 @@ export default function Board({ userId }: BoardProps) {
     const taskId = Number(active.id);
     let sourceColumn: ColumnType | null = null;
     let taskToMove : Task | undefined
+
+    for(const col in columns){
+        const task=columns[col as ColumnType].find((t)=>t.id===taskId)
+        if(task){
+          sourceColumn=col as ColumnType
+          taskToMove=task
+          break
+        }
+    }
+
+    const destinationColumn = over.id as ColumnType
+
+    setColumns((prev)=>{
+      const updated = {...prev}
+      updated[sourceColumn!] = updated[sourceColumn!].filter(t => t.id !== taskId)
+      updated[destinationColumn] = [
+        ...updated[destinationColumn],
+        {
+          ...taskToMove,
+          columnId: destinationColumn,
+        } as Task,
+      ]
+      
+      return updated
+    })
+    setHasChanges(true)
   };
 
   return (
