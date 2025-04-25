@@ -63,7 +63,7 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
       <h2 className="text-xl font-semibold capitalize mb-4">{columnId}</h2>
 
       <div className="space-y-2 min-h-[100px]">
-        {tasks.map((task) => (
+        {tasksState.map((task) => (
           <div
             key={task.id}
             className="bg-blue-100 rounded p-3 shadow cursor-pointer"
