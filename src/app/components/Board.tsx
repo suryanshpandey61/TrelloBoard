@@ -36,6 +36,8 @@ export default function Board({ userId }: BoardProps) {
 
   const [hasChanges,setHasChanges] = useState(false)
 
+  const sensor = useSensors(useSensor(PointerSensor))
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
