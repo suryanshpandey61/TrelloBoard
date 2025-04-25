@@ -1,75 +1,78 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import Column from './Column'
+import { useEffect, useState } from "react";
+import Column from "./Column";
 import {
   DndContext,
   closestCenter,
   DragEndEvent,
   PointerSensor,
   useSensor,
-  useSensors
-} from '@dnd-kit/core'
-type ColumnType = 'todo' | 'doing' | 'done'
+  useSensors,
+} from "@dnd-kit/core";
+type ColumnType = "todo" | "doing" | "done";
 
 type Task = {
-  id: number
-  userId: number
-  columnId: ColumnType
-  content: string
-}
+  id: number;
+  userId: number;
+  columnId: ColumnType;
+  content: string;
+};
 
 type Columns = {
-  [key in ColumnType]: Task[]
-}
+  [key in ColumnType]: Task[];
+};
 
 type BoardProps = {
-  userId: number
-}
+  userId: number;
+};
 
 export default function Board({ userId }: BoardProps) {
   const [columns, setColumns] = useState<Columns>({
     todo: [],
     doing: [],
     done: [],
-  })
+  });
 
-  const [hasChanges,setHasChanges] = useState(false)
+  const [hasChanges, setHasChanges] = useState(false);
 
-  const sensor = useSensors(useSensor(PointerSensor))
+  const sensor = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const res = await fetch(`/api/auth/tasks?userId=${userId}`);
         const result: Task[] = await res.json();
-  
+
         const organizedTasks: Columns = {
           todo: [],
           doing: [],
           done: [],
         };
-  
+
         for (const task of result) {
-          if (['todo', 'doing', 'done'].includes(task.columnId)) {
+          if (["todo", "doing", "done"].includes(task.columnId)) {
             organizedTasks[task.columnId as ColumnType].push(task);
           }
         }
-  
+
         setColumns(organizedTasks);
       } catch (error) {
-        console.error('Error loading tasks:', error);
+        console.error("Error loading tasks:", error);
       }
     };
-  
+
     fetchTasks();
   }, [userId]);
 
-  const handleDragEnd = (event:DragEndEvent) => {
-      const {active,over} = event
-      if(!over || active.id===over.id) return
-  }
-  
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const taskId = Number(active.id);
+    let sourceColumn: ColumnType | null = null;
+    let taskToMove : Task | undefined
+  };
 
   return (
     <div className="flex gap-4">
@@ -82,5 +85,5 @@ export default function Board({ userId }: BoardProps) {
         />
       ))}
     </div>
-  )
+  );
 }
