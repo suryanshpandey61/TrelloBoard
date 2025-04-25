@@ -36,7 +36,8 @@ export default function Board({ userId }: BoardProps) {
 
   const [hasChanges, setHasChanges] = useState(false);
 
-  const sensor = useSensors(useSensor(PointerSensor));
+  const sensor = useSensor(PointerSensor);
+  const sensors = useSensors(sensor);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -119,15 +120,31 @@ export default function Board({ userId }: BoardProps) {
   }
 
   return (
-    <div className="flex gap-4">
-      {Object.entries(columns).map(([columnId, taskList]) => (
-        <Column
-          key={columnId}
-          columnId={columnId as ColumnType}
-          tasks={taskList}
-          userId={userId}
-        />
-      ))}
-    </div>
+    <div className="p-4">
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <div className="flex gap-4">
+        {Object.entries(columns).map(([columnId, taskList]) => (
+          <Column
+            key={columnId}
+            columnId={columnId as ColumnType}
+            tasks={taskList}
+            userId={userId}
+            dndColumnId={columnId} // Pass it for droppable area
+          />
+        ))}
+      </div>
+    </DndContext>
+
+    {hasChanges && (
+      <div className="mt-6 text-center">
+        <button
+          onClick={handleSave}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+        >
+          Save Changes
+        </button>
+      </div>
+    )}
+  </div>
   );
 }
