@@ -41,6 +41,7 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
       }
   
       // Later: use state to update UI
+      
       window.location.reload(); // temporary
     } catch (error) {
       console.error('Error adding task:', error);

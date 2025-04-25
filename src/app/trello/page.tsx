@@ -19,7 +19,7 @@ export default function TrelloPage() {
     <main className="p-6">
       <div className="flex justify-between mb-6 items-center">
         <h1 className="text-2xl font-bold">Welcome, {user.name}</h1>
-        <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded">
+        <button onClick={logout} className="bg-red-500 cursor-pointer text-white px-4 py-2 rounded">
           Logout
         </button>
       </div>
