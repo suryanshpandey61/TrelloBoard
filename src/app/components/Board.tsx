@@ -64,6 +64,11 @@ export default function Board({ userId }: BoardProps) {
   
     fetchTasks();
   }, [userId]);
+
+  const handleDragEnd = (event:DragEndEvent) => {
+      const {active,over} = event
+      if(!over || active.id===over.id) return
+  }
   
 
   return (
