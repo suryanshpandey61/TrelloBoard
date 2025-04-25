@@ -41,6 +41,8 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
       if (!res.ok) {
         throw new Error('Failed to add task');
       }
+
+      const createdTask:Task =await res.json();
   
       // Later: use state to update UI
       toast.success("Task Added Successfully , Please wait a moment")
