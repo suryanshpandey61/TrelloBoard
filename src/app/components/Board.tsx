@@ -34,6 +34,8 @@ export default function Board({ userId }: BoardProps) {
     done: [],
   })
 
+  const [hasChanges,setHasChanges] = useState(false)
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
