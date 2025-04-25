@@ -26,7 +26,6 @@ type ColumnProps = {
 }
 
 export default function Column({ columnId, tasks, userId, dndColumnId,onAddTask }: ColumnProps) {
-  const [tasksState, setTasksState] = useState<Task[]>(tasks)
   const [newTask, setNewTask] = useState('')
 
   // Make this column droppable
@@ -58,6 +57,7 @@ export default function Column({ columnId, tasks, userId, dndColumnId,onAddTask 
       toast.success('Task Added Successfully');
       setNewTask('');
     } catch (error) {
+      toast.error("Error while adding the task to db")
       console.error('Error adding task:', error);
     }
   };
@@ -69,7 +69,7 @@ export default function Column({ columnId, tasks, userId, dndColumnId,onAddTask 
 
       {/* DND: Drop zone for this column */}
       <div ref={setDroppableRef} className="space-y-2 min-h-[100px]">
-        {tasksState.map((task) => (
+        {tasks.map((task) => (
           <DraggableTask key={task.id} task={task} />
         ))}
       </div>
