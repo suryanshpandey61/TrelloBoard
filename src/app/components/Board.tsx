@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import Column from './Column'
-
+import {
+  DndContext,
+  closestCenter,
+  DragEndEvent,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core'
 type ColumnType = 'todo' | 'doing' | 'done'
 
 type Task = {
