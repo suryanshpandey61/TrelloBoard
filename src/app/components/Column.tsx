@@ -21,10 +21,11 @@ type ColumnProps = {
   columnId: ColumnType
   tasks: Task[]
   userId: number
-  dndColumnId: string // passed for droppable support
+  dndColumnId: string
+  onAddTask: (task: Task) => void // 👈 new
 }
 
-export default function Column({ columnId, tasks, userId, dndColumnId }: ColumnProps) {
+export default function Column({ columnId, tasks, userId, dndColumnId,onAddTask }: ColumnProps) {
   const [tasksState, setTasksState] = useState<Task[]>(tasks)
   const [newTask, setNewTask] = useState('')
 
@@ -34,8 +35,8 @@ export default function Column({ columnId, tasks, userId, dndColumnId }: ColumnP
   })
 
   const handleAddTask = async () => {
-    if (!newTask.trim()) return
-
+    if (!newTask.trim()) return;
+  
     try {
       const res = await fetch('/api/auth/task', {
         method: 'POST',
@@ -45,23 +46,22 @@ export default function Column({ columnId, tasks, userId, dndColumnId }: ColumnP
           columnId,
           content: newTask.trim(),
         }),
-      })
-
+      });
+  
       if (!res.ok) {
-        throw new Error('Failed to add task')
+        throw new Error('Failed to add task');
       }
-
-      const createdTask: Task = await res.json()
-      setTasksState((prev) => [...prev, createdTask])
-
-      toast.success('Task Added Successfully')
-      setNewTask('')
+  
+      const createdTask: Task = await res.json();
+      onAddTask(createdTask); // 👈 Push to parent state
+  
+      toast.success('Task Added Successfully');
+      setNewTask('');
     } catch (error) {
-      console.error('Error adding task:', error)
-    } finally {
-      setNewTask('')
+      console.error('Error adding task:', error);
     }
-  }
+  };
+  
 
   return (
     <div className="bg-white rounded-xl p-4 w-1/3 shadow">

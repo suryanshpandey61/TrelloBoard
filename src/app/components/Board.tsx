@@ -106,6 +106,13 @@ export default function Board({ userId }: BoardProps) {
       console.error('Error saving tasks:', error)
     }
   }
+  const handleAddTaskToColumn = (newTask: Task) => {
+    setColumns((prev) => ({
+      ...prev,
+      [newTask.columnId]: [...prev[newTask.columnId], newTask],
+    }));
+  };
+  
 
   return (
     <div className="p-4">
@@ -117,7 +124,8 @@ export default function Board({ userId }: BoardProps) {
             columnId={columnId as ColumnType}
             tasks={taskList}
             userId={userId}
-            dndColumnId={columnId} // Pass it for droppable area
+            dndColumnId={columnId}
+            onAddTask={handleAddTaskToColumn} 
           />
         ))}
       </div>
