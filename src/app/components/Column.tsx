@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css'; 
 // import { db } from '@/db'
 // import { tasks as tasksTable } from '@/db/schema'
 
@@ -41,7 +43,7 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
       }
   
       // Later: use state to update UI
-      
+      toast.success("Task Added Successfully , Please wait a moment")
       window.location.reload(); // temporary
     } catch (error) {
       console.error('Error adding task:', error);
@@ -85,6 +87,7 @@ export default function Column({ columnId, tasks, userId }: ColumnProps) {
           </div>
         </div>
       )}
+      <ToastContainer/>
     </div>
   )
 }
