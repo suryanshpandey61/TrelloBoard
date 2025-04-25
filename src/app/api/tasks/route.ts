@@ -1,7 +1,7 @@
 // src/app/api/tasks/route.ts
 import { db } from '@/db';
 import { tasks } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm"
 import { NextRequest } from 'next/server';
 
 

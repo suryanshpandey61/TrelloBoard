@@ -2,7 +2,7 @@ import { db } from "@/db/index"
 import { usersTable } from "@/db/schema"
 import jwt from "jsonwebtoken"
 import { eq } from "drizzle-orm"
-import { useRouter } from "next/navigation"
+
 
 const JWT_SECRET = process.env.JWT_SECRET!
 

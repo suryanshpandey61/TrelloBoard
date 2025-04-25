@@ -42,30 +42,19 @@ export default function Board({ userId }: BoardProps) {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch(`/api/auth/tasks?userId=${userId}`);
-        const result: Task[] = await res.json();
-
-        const organizedTasks: Columns = {
-          todo: [],
-          doing: [],
-          done: [],
-        };
-
-        for (const task of result) {
-          if (["todo", "doing", "done"].includes(task.columnId)) {
-            organizedTasks[task.columnId as ColumnType].push(task);
-          }
-        }
-
-        setColumns(organizedTasks);
-      } catch (error) {
-        console.error("Error loading tasks:", error);
+        const res = await fetch(`/api/tasks?userId=${userId}`);
+        const data: Task[] = await res.json();
+  
+        const organized = { todo: [], doing: [], done: [] } as Columns;
+        data.forEach((task) => organized[task.columnId].push(task));
+        setColumns(organized);
+      } catch (err) {
+        console.error('Failed to load tasks:', err);
       }
     };
-
     fetchTasks();
   }, [userId]);
-
+  
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
