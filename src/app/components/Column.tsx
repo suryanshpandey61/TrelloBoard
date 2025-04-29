@@ -68,7 +68,7 @@ export default function Column({ columnId, tasks, userId, dndColumnId,onAddTask 
       <h2 className="text-xl font-semibold capitalize mb-4">{columnId}</h2>
 
       {/* DND: Drop zone for this column */}
-      <div ref={setDroppableRef} className="space-y-2 min-h-[100px]">
+      <div ref={setDroppableRef} className="space-y-1 min-h-[100px]">
         {tasks.map((task) => (
           <DraggableTask key={task.id} task={task} />
         ))}
