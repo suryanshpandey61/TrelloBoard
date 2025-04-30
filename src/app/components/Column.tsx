@@ -64,7 +64,7 @@ export default function Column({ columnId, tasks, userId, dndColumnId,onAddTask 
   
 
   return (
-    <div className="bg-white rounded-xl p-3 w-1/3 shadow">
+    <div className="bg-white rounded-xl p-4 w-1/3 shadow">
       <h2 className="text-xl font-semibold capitalize mb-4">{columnId}</h2>
 
       {/* DND: Drop zone for this column */}
