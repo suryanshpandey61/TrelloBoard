@@ -160,7 +160,7 @@ export default function Board({ userId }: BoardProps) {
         <div className="mt-6 text-center">
           <button
             onClick={handleSave}
-            className="bg-green-600  hover:bg-green-700 text-white px-4 py-2 rounded"
+            className="bg-green-600 cursor-pointer  hover:bg-green-700 text-white px-4 py-2 rounded"
           >
             Save Changes
           </button>
