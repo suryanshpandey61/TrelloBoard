@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Column from "./Column";
+import { useEffect, useState } from 'react';
+import Column from './Column';
 import {
   DndContext,
   closestCenter,
@@ -9,10 +9,10 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
-import { toast, ToastContainer } from "react-toastify";
+} from '@dnd-kit/core';
+import { toast, ToastContainer } from 'react-toastify';
 
-type ColumnType = "todo" | "doing" | "done";
+type ColumnType = 'todo' | 'doing' | 'done';
 
 type Task = {
   id: number;
@@ -41,7 +41,6 @@ export default function Board({ userId }: BoardProps) {
   const sensor = useSensor(PointerSensor);
   const sensors = useSensors(sensor);
 
-  
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -49,7 +48,7 @@ export default function Board({ userId }: BoardProps) {
         const result = await res.json();
 
         if (!Array.isArray(result)) {
-          console.error("Expected task array, got:", result);
+          console.error('Expected task array, got:', result);
           return;
         }
 
@@ -60,22 +59,21 @@ export default function Board({ userId }: BoardProps) {
         };
 
         for (const task of result) {
-          if (["todo", "doing", "done"].includes(task.columnId)) {
+          if (['todo', 'doing', 'done'].includes(task.columnId)) {
             organizedTasks[task.columnId as ColumnType].push(task);
           }
         }
 
         setColumns(organizedTasks);
       } catch (error) {
-        toast.error("Error while fetch the task")
-        console.error("Error loading tasks:", error);
+        toast.error('Error while fetching tasks');
+        console.error('Error loading tasks:', error);
       }
     };
 
     fetchTasks();
   }, [userId]);
 
-  // ✅ Handle drag and drop
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -83,7 +81,12 @@ export default function Board({ userId }: BoardProps) {
     const sourceColumn = active.data.current?.columnId as ColumnType;
     const destinationColumn = over.id as ColumnType;
 
-    if (!sourceColumn || !destinationColumn || sourceColumn === destinationColumn) return;
+    if (
+      !sourceColumn ||
+      !destinationColumn ||
+      sourceColumn === destinationColumn
+    )
+      return;
 
     const taskToMove = columns[sourceColumn].find(
       (task) => task.id === Number(active.id)
@@ -102,29 +105,29 @@ export default function Board({ userId }: BoardProps) {
       return updated;
     });
 
-    setHasChanges(true); // ✅ Show "Save" button
+    setHasChanges(true);
   };
 
-  // ✅ Save all changes to the DB
   const handleSave = async () => {
     const allTasks = Object.values(columns).flat();
 
     try {
-      const res = await fetch("/api/auth/update-tasks", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/auth/update-tasks', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tasks: allTasks }),
       });
 
-      if (!res.ok) throw new Error("Save failed");
+      if (!res.ok) throw new Error('Save failed');
 
+      toast.success('Changes saved!');
       setHasChanges(false);
     } catch (error) {
-      console.error("Error saving tasks:", error);
+      toast.error('Error saving tasks');
+      console.error('Error saving tasks:', error);
     }
   };
 
-  // ✅ Add new task from Column input
   const handleAddTaskToColumn = (newTask: Task) => {
     setColumns((prev) => ({
       ...prev,
@@ -157,13 +160,13 @@ export default function Board({ userId }: BoardProps) {
         <div className="mt-6 text-center">
           <button
             onClick={handleSave}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+            className="bg-green-600  hover:bg-green-700 text-white px-4 py-2 rounded"
           >
             Save Changes
           </button>
         </div>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
