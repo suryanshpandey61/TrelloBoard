@@ -136,7 +136,7 @@ export default function Board({ userId }: BoardProps) {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-2">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
