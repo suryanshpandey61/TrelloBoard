@@ -142,7 +142,7 @@ export default function Board({ userId }: BoardProps) {
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           {Object.entries(columns).map(([columnId, taskList]) => (
             <Column
               key={columnId}
