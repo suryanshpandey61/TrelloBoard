@@ -79,7 +79,7 @@ export default function Column({
       </div>
 
       {columnId === 'todo' && (
-        <div className="mt-4">
+        <div className="mt-2">
           <div className="flex gap-2">
             <input
               type="text"
