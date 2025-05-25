@@ -69,7 +69,7 @@ export default function Column({
 
       <div
         ref={setDroppableRef}
-        className={`space-y-1 min-h-[100px] p-2 rounded transition-colors ${
+        className={`space-y-1 min-h-[100px] p-1 rounded transition-colors ${
           isOver ? 'bg-gray-100' : ''
         }`}
       >
