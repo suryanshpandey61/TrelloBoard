@@ -40,7 +40,7 @@ const LoginPage = () => {
         <div className="w-[90%] max-w-sm p-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Login</h2>
 
-          <form className="space-y-4"
+          <form className="space-y-3"
           onSubmit={handleLogin}
           >
             <div>
