@@ -157,7 +157,7 @@ export default function Board({ userId }: BoardProps) {
       </DndContext>
 
       {hasChanges && (
-        <div className="mt-7 text-center">
+        <div className="mt-8 text-center">
           <button
             onClick={handleSave}
             className="bg-green-600 cursor-pointer  hover:bg-green-700 text-white px-4 py-2 rounded"
