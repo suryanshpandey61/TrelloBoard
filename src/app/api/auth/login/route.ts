@@ -44,7 +44,7 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     console.error("Login error:", error)
 
-    let message = "Internal Server Error"
+    let message = "Internal server Error"
     if (error instanceof Error) {
       message = error.message
     }
