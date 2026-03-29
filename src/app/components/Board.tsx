@@ -123,7 +123,7 @@ export default function Board({ userId }: BoardProps) {
       toast.success('Changes saved!');
       setHasChanges(false);
     } catch (error) {
-      toast.error('error saving tasks');
+      toast.error('error Saving tasks');
       console.error('Error saving tasks:', error);
     }
   };
