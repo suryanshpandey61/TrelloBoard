@@ -33,12 +33,12 @@ export async function POST(request: Request) {
         name: user.name,
         email: user.email,
       },
-      JWT_SECRET,
+      JWT_SECRET
       { expiresIn: "7d" }
     )
     
     
-    return new Response(JSON.stringify({ message: "Login successfully", token }), {
+    return new Response(JSON.stringify({ message: "Login Successfully", token }), {
       status: 200,
     })
   } catch (error: unknown) {
