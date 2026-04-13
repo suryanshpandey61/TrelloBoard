@@ -66,7 +66,7 @@ export default function Board({ userId }: BoardProps) {
 
         setColumns(organizedTasks);
       } catch (error) {
-        toast.error('Error while fetching tasks');
+        toast.error('Error While fetching tasks');
         console.error('Error loading tasks:', error);
       }
     };
